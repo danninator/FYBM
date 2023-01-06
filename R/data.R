@@ -10,14 +10,14 @@ group_budgets <- read_csv("Data/RandomGroupBudgets.csv") %>%
             )
 
 
-total_budgets <- group_budgets %>% 
-          group_by(financial_year) %>% 
+total_budgets <- group_budgets %>%
+          group_by(financial_year) %>%
           summarise(total = sum(total),
                     base = sum(base),
                     atr = sum(atr),
                     npp = sum(npp))
 
-  
+
 total_group_budgets <- group_budgets %>%
-          group_by(group) %>% 
+          group_by(group) %>%
           summarise(total = sum(total))

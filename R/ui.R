@@ -21,7 +21,8 @@ ui <- dashboardPage(
   
   dashboardBody(
     
-    # -- ?? -- WHY IS IT THAT I NEED TO ADD br() IN TO MAKE THE BOX START IN THE DASH BODY?
+    # --??-- WHY IS IT THAT I NEED TO ADD br() IN TO MAKE THE BOX START IN THE DASH BODY? 
+    # Shouldn't it already be within the body? By that logic, BELOW the header?
     
     br(), br(), br(),
     
@@ -48,8 +49,6 @@ ui <- dashboardPage(
                      )
                    )
                  ),
-                 
-                 
                ),
       
       tabPanel(title = "Group",
