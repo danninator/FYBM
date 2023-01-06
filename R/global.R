@@ -6,8 +6,8 @@ suppressPackageStartupMessages({
   library(echarts4r)
 })
 
-source("data.R")
-source("ui.R")
-source("server.R")
+source("R/data.R")
+source("R/ui.R")
+source("R/server.R")
 
 shinyApp(ui, server)
