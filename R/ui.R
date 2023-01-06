@@ -36,14 +36,16 @@ ui <- dashboardPage(
                  width = 12,
                  title = "Five Year Budget Summary",
                  fluidRow(
-                   column(width = 3, "Total Col"),
-                   column(width = 3, "Base Col"),
-                   column(width = 3, "NPP Col"),
-                   column(width = 3, "ATR Col")
+                   column(width = 3, infoBoxOutput("total_infobox", width = 12)),
+                   column(width = 3, infoBoxOutput("base_infobox", width = 12)),
+                   column(width = 3, infoBoxOutput("npp_infobox", width = 12)),
+                   column(width = 3, infoBoxOutput("atr_infobox", width = 12))
                    ),
                  br(),
                  box(
-                   fluidRow(plotOutput(outputId = "summary_graph"))
+                   fluidRow(
+                     plotOutput(outputId = "summary_graph")
+                     )
                    )
                  ),
                  

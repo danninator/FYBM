@@ -21,4 +21,20 @@ server <- function(input, output, session) {
     }, ignoreInit = TRUE)
   
   
+  output$total_infobox <- renderInfoBox({
+    infoBox(title = "Total", value = total_budgets$total)
+  })
+  
+  output$base_infobox <- renderInfoBox({
+    infoBox(title = "Base", value = total_budgets$base)
+  })
+  
+  output$npp_infobox <- renderInfoBox({
+    infoBox(title = "NPP", value = total_budgets$npp)
+  })
+  
+  output$atr_infobox <- renderInfoBox({
+    infoBox(title = "ATR", value = total_budgets$atr)
+  })
+  
 }
