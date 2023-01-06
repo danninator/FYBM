@@ -1,7 +1,8 @@
 library(tidyverse)
 library(lubridate)
+library(here)
 
-group_budgets <- read_csv("Data/RandomGroupBudgets.csv") %>%
+group_budgets <- read_csv(here("Data/RandomGroupBudgets.csv")) %>%
           mutate(across(Total:ATR, as.numeric)) %>%
           rename_with(tolower) %>%
           mutate(
