@@ -1,7 +1,7 @@
 ui <- dashboardPage(
   title = "FYBM",
   
-  shinydashboardPlus::dashboardHeader(
+  dashboardHeader(
     title = textOutput("db_title"),
     titleWidth = 240,
     fixed = TRUE,
@@ -15,7 +15,7 @@ ui <- dashboardPage(
     )
   ),
   
-  shinydashboardPlus::dashboardSidebar(
+  dashboardSidebar(
     width = 0
   ),
   
@@ -25,24 +25,38 @@ ui <- dashboardPage(
     
     br(), br(), br(),
     
-    box(
-      title = "Summary Box",
-      id = "summary_box",
-      collapsible = TRUE,
-      width = 12,
+    tabsetPanel(
+      id = "tabs_UI",
+      type = "hidden",
+      selected = "summary_tab",
       
-      fluidRow(
-        column(width = 3, "Total Col"),
-        column(width = 3, "Base Col"),
-        column(width = 3, "NPP Col"),
-        column(width = 3, "ATR Col")
-      ),
+      tabPanel(title = "Summary",
+               value = "summary_tab",
+               box(
+                 width = 12,
+                 title = "Five Year Budget Summary",
+                 fluidRow(
+                   column(width = 3, "Total Col"),
+                   column(width = 3, "Base Col"),
+                   column(width = 3, "NPP Col"),
+                   column(width = 3, "ATR Col")
+                   ),
+                 br(),
+                 box(
+                   fluidRow(plotOutput(outputId = "summary_graph"))
+                   )
+                 ),
+                 
+                 
+               ),
       
-      fluidRow(
-        plotOutput(outputId = "summary_graph")
+      tabPanel(title = "Group",
+               value = "group_tab",
+               box(
+                 width = 12,
+                 title = "Group Budget Summary"
+                 )
+               )
       )
     )
-    
-    
-  )
 )
