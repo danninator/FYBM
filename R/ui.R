@@ -58,11 +58,14 @@ ui <- dashboardPage(
                value = "group_tab",
                box(
                  width = 12,
-                 title = "Group Budget Summary",
+                 title = paste0(textOutput("group_tab_title"), " Budget Summary"),
                  selectInput(inputId = "select_group",
                              label = "Select Group:",
                              choices = distinct(group_budgets, group),
-                             width = 150)
+                             width = 150),
+                 fluidRow(
+                   
+                 )
                  )
                )
       )

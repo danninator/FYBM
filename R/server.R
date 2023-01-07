@@ -4,26 +4,30 @@ server <- function(input, output, session) {
   
   rv_ui <- reactiveValues(show = "summary")
   
-  output$summary_graph <- renderPlot({
-    ggplot(group_budgets, aes(x = total, y = financial_year, fill = group)) +
-      geom_col() +
-      coord_flip() +
-      scale_x_continuous(labels = scales::dollar)
-  })
+  # output$summary_graph <- renderPlot({
+  #   ggplot(group_budgets, aes(x = total, y = financial_year, fill = group)) +
+  #     geom_col() +
+  #     coord_flip() +
+  #     scale_x_continuous(labels = scales::dollar)
+  # })
   
   output$summary_echart <- renderEcharts4r({
     group_budgets %>% e_charts(group) %>% 
       e_bar(base, stack = "grp") %>% 
       e_bar(npp, stack = "grp") %>% 
-      e_bar(atr, stack = "grp")
+      e_bar(atr, stack = "grp") %>% 
+      e_y_axis(formatter = e_axis_formatter("currency"))
   })
-  
-  
-  output$summary_graph2 <- renderPlot ({
-    group_budgets %>% e_charts() %>% 
-      e_line()
+
+  output$group_tab_title <- renderText({
+    # if (is.null(input$select_group) == TRUE) {
+    #   paste0("Group")
+    # } else {
+    #   paste0(input$select_group)
+    # }
+    
+    ifelse(!input$select_group, "Group", paste0(input$select_group))
   })
-  
   
   observeEvent(input$nav_summary, {
     updateTabsetPanel(session, "tabs_UI",
@@ -35,6 +39,10 @@ server <- function(input, output, session) {
                       selected = "group_tab")
     }, ignoreInit = TRUE)
   
+  observeEvent(input$select_group, {
+    group_budgets 
+    
+  })
   
   output$total_infobox <- renderValueBox({
     valueBox(subtitle = "Total", 
