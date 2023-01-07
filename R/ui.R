@@ -16,7 +16,8 @@ ui <- dashboardPage(
   ),
   
   dashboardSidebar(
-    width = 0
+    collapsed = TRUE
+    #width = 0
   ),
   
   dashboardBody(
@@ -36,26 +37,32 @@ ui <- dashboardPage(
                box(
                  width = 12,
                  title = "Five Year Budget Summary",
-                 fluidRow(
-                   column(width = 3, infoBoxOutput("total_infobox", width = 12)),
-                   column(width = 3, infoBoxOutput("base_infobox", width = 12)),
-                   column(width = 3, infoBoxOutput("npp_infobox", width = 12)),
-                   column(width = 3, infoBoxOutput("atr_infobox", width = 12))
-                   ),
+                 
+                 # solidHeader = TRUE,
+                 
                  br(),
-                 box(
-                   fluidRow(
-                     plotOutput(outputId = "summary_graph")
-                     )
-                   )
+                 fluidRow(
+                   column(width = 3, valueBoxOutput("total_infobox", width = 12)),
+                   column(width = 3, valueBoxOutput("base_infobox", width = 12)),
+                   column(width = 3, valueBoxOutput("npp_infobox", width = 12)),
+                   column(width = 3, valueBoxOutput("atr_infobox", width = 12))
                  ),
-               ),
+                 br(),
+                 fluidRow(
+                   echarts4rOutput(outputId = "summary_echart")
+                     )
+                 )
+      ),
       
       tabPanel(title = "Group",
                value = "group_tab",
                box(
                  width = 12,
-                 title = "Group Budget Summary"
+                 title = "Group Budget Summary",
+                 selectInput(inputId = "select_group",
+                             label = "Select Group:",
+                             choices = distinct(group_budgets, group),
+                             width = 150)
                  )
                )
       )
