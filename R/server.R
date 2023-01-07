@@ -5,9 +5,12 @@ server <- function(input, output, session) {
   rv_ui <- reactiveValues(show = "summary")
   
   output$summary_graph <- renderPlot({
-    ggplot(group_budgets, aes(x = total, y = financial_year)) +
-      geom_col(width = 100) +
-      coord_flip()
+    group_budgets %>% 
+      mutate(financial_year = factor(financial_year)) %>% 
+      ggplot(aes(x = total, y = financial_year, fill = group)) +
+      geom_col() +
+      coord_flip() +
+      scale_x_continuous(labels = scales::dollar)
   })
   
   observeEvent(input$nav_summary, {
