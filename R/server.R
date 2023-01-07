@@ -2,14 +2,24 @@ server <- function(input, output, session) {
   
   output$db_title <- renderText("Five Year Budget")
   
-  rv_ui <- reactiveValues(show = "summary")
   
-  # output$summary_graph <- renderPlot({
-  #   ggplot(group_budgets, aes(x = total, y = financial_year, fill = group)) +
-  #     geom_col() +
-  #     coord_flip() +
-  #     scale_x_continuous(labels = scales::dollar)
-  # })
+  
+  group <- reactiveValues(selected = NULL)
+  
+  observeEvent(input$select_group, {
+    group$selected <- input$select_group
+  })
+  
+  output$group_echart <- renderEcharts4r({
+    group_budgets %>% filter(group %in% group$selected) %>% 
+      e_charts(group) %>% 
+      e_bar(base, stack = "grp") %>% 
+      e_bar(npp, stack = "grp") %>% 
+      e_bar(atr, stack = "grp") %>% 
+      e_y_axis(formatter = e_axis_formatter("currency"))
+  })
+  
+  
   
   output$summary_echart <- renderEcharts4r({
     group_budgets %>% e_charts(group) %>% 
@@ -20,12 +30,6 @@ server <- function(input, output, session) {
   })
 
   output$group_tab_title <- renderText({
-    # if (is.null(input$select_group) == TRUE) {
-    #   paste0("Group")
-    # } else {
-    #   paste0(input$select_group)
-    # }
-    
     ifelse(!input$select_group, "Group", paste0(input$select_group))
   })
   

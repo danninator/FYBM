@@ -62,9 +62,10 @@ ui <- dashboardPage(
                  selectInput(inputId = "select_group",
                              label = "Select Group:",
                              choices = distinct(group_budgets, group),
+                             selected = group_budgets$group[1],
                              width = 150),
                  fluidRow(
-                   
+                   echarts4rOutput(outputId = "group_echart")
                  )
                  )
                )
