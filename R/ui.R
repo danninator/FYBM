@@ -17,7 +17,7 @@ ui <- dashboardPage(
   
   dashboardSidebar(
     collapsed = TRUE
-    #width = 0
+    # width = 0
   ),
   
   dashboardBody(
@@ -58,13 +58,14 @@ ui <- dashboardPage(
                value = "group_tab",
                box(
                  width = 12,
-                 title = paste0(textOutput("group_tab_title"), " Budget Summary"),
+                 title = textOutput("group_tab_title"),
                  selectInput(inputId = "select_group",
                              label = "Select Group:",
                              choices = distinct(group_budgets, group),
                              selected = group_budgets$group[1],
-                             width = 150),
+                             width = 200),
                  fluidRow(
+                   textOutput(outputId = "tester"),
                    echarts4rOutput(outputId = "group_echart")
                  )
                  )

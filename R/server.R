@@ -4,25 +4,31 @@ server <- function(input, output, session) {
   
   
   
-  group <- reactiveValues(selected = NULL)
+  group <- reactiveValues(selected = "")
   
   observeEvent(input$select_group, {
-    group$selected <- input$select_group
+    if (is.null(group$selected) == FALSE) {
+      group$selected <- paste0(input$select_group)
+    } 
   })
   
+  output$tester <- renderText(input$select_group)
+  
   output$group_echart <- renderEcharts4r({
-    group_budgets %>% filter(group %in% group$selected) %>% 
-      e_charts(group) %>% 
-      e_bar(base, stack = "grp") %>% 
-      e_bar(npp, stack = "grp") %>% 
-      e_bar(atr, stack = "grp") %>% 
+    select_group_budget <- group_budgets %>% filter(group == group$selected)
+
+    select_group_budget %>%
+      e_charts(financial_year) %>%
+      e_bar(base, stack = "grp") %>%
+      e_bar(npp, stack = "grp") %>%
+      e_bar(atr, stack = "grp") %>%
       e_y_axis(formatter = e_axis_formatter("currency"))
   })
   
   
   
   output$summary_echart <- renderEcharts4r({
-    group_budgets %>% e_charts(group) %>% 
+    group_budgets %>% e_charts(financial_year) %>% 
       e_bar(base, stack = "grp") %>% 
       e_bar(npp, stack = "grp") %>% 
       e_bar(atr, stack = "grp") %>% 
@@ -30,7 +36,7 @@ server <- function(input, output, session) {
   })
 
   output$group_tab_title <- renderText({
-    ifelse(!input$select_group, "Group", paste0(input$select_group))
+    ifelse(!input$select_group, "Group Budget Summary", paste0(input$select_group, " Budget Summary"))
   })
   
   observeEvent(input$nav_summary, {
