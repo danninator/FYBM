@@ -18,6 +18,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     collapsed = TRUE
     # width = 0
+    # disable = TRUE
   ),
   
   dashboardBody(
@@ -36,9 +37,9 @@ ui <- dashboardPage(
                value = "summary_tab",
                box(
                  width = 12,
-                 title = "Five Year Budget Summary",
+                 title = "Five Year Budget - Summary",
                  
-                 # solidHeader = TRUE,
+                 solidHeader = TRUE,
                  
                  br(),
                  fluidRow(
@@ -58,16 +59,24 @@ ui <- dashboardPage(
                value = "group_tab",
                box(
                  width = 12,
-                 title = textOutput("group_tab_title"),
-                 selectInput(inputId = "select_group",
-                             label = "Select Group:",
-                             choices = distinct(group_budgets, group),
-                             selected = group_budgets$group[1],
-                             width = 200),
+                 title = textOutput("group_title"),
                  fluidRow(
-                   textOutput(outputId = "tester"),
+                   column(width = 9,
+                          selectInput(inputId = "select_group",
+                                      label = "Select Group:",
+                                      choices = distinct(group_budgets, group),
+                                      selected = group_budgets$group[1],
+                                      width = 200)
+                          ),
+                   column(width = 3,
+                          downloadButton(outputId = "group_data_download",
+                                         label = "Download Data")
+                          ),
+                   ),
+                   
+                 fluidRow(
                    echarts4rOutput(outputId = "group_echart")
-                 )
+                   )
                  )
                )
       )

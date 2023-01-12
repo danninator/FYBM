@@ -2,36 +2,48 @@ server <- function(input, output, session) {
   
   output$db_title <- renderText("Five Year Budget")
   
-  
-  
-  group <- reactiveValues(selected = "")
-  
-  observeEvent(input$select_group, {
-    if (is.null(group$selected) == FALSE) {
-      group$selected <- paste0(input$select_group)
-    } 
+  output$group_title <- renderText({
+    a <- "Five Year Budget"
+    b <- input$select_group
+    return(paste(a, " - ", b, " Group"))
   })
   
-  output$tester <- renderText(input$select_group)
+  selected_group_budget <- reactive({
+    one_group_budget <- group_budgets %>% 
+      filter(group == input$select_group)
+  })
+  
+  reactive_group_budgets <- reactive({
+    if (is.null(input$select_group) == FALSE) {
+      download_group_data <- selected_group_budget()
+    } else {
+      NULL
+    }
+    return(download_group_data)
+  })  
+  
+  output$group_data_download <- downloadHandler(
+        filename = function() {paste(input$select_group, "_Five_Year_Budget_", Sys.Date(), ".csv", sep = "")},
+        content = function(file) {write_csv(reactive_group_budgets(), file)}
+    )
+  
   
   output$group_echart <- renderEcharts4r({
-    select_group_budget <- group_budgets %>% filter(group == group$selected)
-
-    select_group_budget %>%
+    selected_group_budget() %>% 
       e_charts(financial_year) %>%
       e_bar(base, stack = "grp") %>%
       e_bar(npp, stack = "grp") %>%
       e_bar(atr, stack = "grp") %>%
+      e_tooltip(trigger = "axis") %>% 
       e_y_axis(formatter = e_axis_formatter("currency"))
   })
   
-  
-  
   output$summary_echart <- renderEcharts4r({
-    group_budgets %>% e_charts(financial_year) %>% 
+    total_fy_budgets %>% e_charts(financial_year) %>% 
       e_bar(base, stack = "grp") %>% 
       e_bar(npp, stack = "grp") %>% 
       e_bar(atr, stack = "grp") %>% 
+      e_tooltip(trigger = "axis") %>% 
       e_y_axis(formatter = e_axis_formatter("currency"))
   })
 
@@ -48,11 +60,6 @@ server <- function(input, output, session) {
     updateTabsetPanel(session, "tabs_UI",
                       selected = "group_tab")
     }, ignoreInit = TRUE)
-  
-  observeEvent(input$select_group, {
-    group_budgets 
-    
-  })
   
   output$total_infobox <- renderValueBox({
     valueBox(subtitle = "Total", 
