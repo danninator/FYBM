@@ -8,6 +8,10 @@ suppressPackageStartupMessages({
 })
 
 source(here("R/data.R"))
+
+source(here("R/mod_summary.R"))
+source(here("R/mod_group.R"))
+
 source(here("R/ui.R"))
 source(here("R/server.R"))
 
