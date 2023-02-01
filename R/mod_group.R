@@ -40,6 +40,7 @@ mod_groupServer <- function(id) {
     ## DATA ##
     
     selected_group_budget <- reactive({
+      
       one_group_budget <- group_budgets %>% 
         filter(group == input$select_group)
     })
