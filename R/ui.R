@@ -33,7 +33,7 @@ ui <- dashboardPage(
     # --??-- WHY IS IT THAT I NEED TO ADD br() IN TO MAKE THE BOX START IN THE DASH BODY? 
     # Shouldn't it already be within the body? By that logic, BELOW the header?
     
-    # br(), br(), br(),
+    br(), br(), br(),
     
     tabsetPanel(
       id = "tabs_UI",
