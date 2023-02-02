@@ -2,24 +2,26 @@ mod_groupUI <- function(id) {
   
   ns <- NS(id)
   
-  fluidRow(
-    column(width = 9,
-           selectInput(inputId = ns("select_group"),
-                       label = "Select Group:",
-                       choices = distinct(group_budgets, group),
-                       selected = group_budgets$group[1],
-                       width = 200)
+  fluidPage(
+    
+    fluidRow(
+      column(width = 9,
+             selectInput(inputId = ns("select_group"),
+                         label = "Select Group:",
+                         choices = distinct(group_budgets, group),
+                         selected = group_budgets$group[1],
+                         width = 200)
+      ),
+      column(width = 3,
+             downloadButton(outputId = ns("group_data_download"),
+                            label = "Download Data")
+      ),
     ),
-    column(width = 3,
-           downloadButton(outputId = ns("group_data_download"),
-                          label = "Download Data")
-    ),
+    
+    fluidRow(
+      echarts4rOutput(outputId = ns("group_echart"))
+    ) 
   )
-  
-  fluidRow(
-    echarts4rOutput(outputId = ns("group_echart"))
-  )
-
   
 }
 

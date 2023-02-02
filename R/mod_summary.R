@@ -1,19 +1,23 @@
 mod_summaryUI <- function(id) {
   
   ns <- NS(id)
+
+  fluidPage(
+    
+    fluidRow(
+      column(width = 3, infoBoxOutput(ns("total_infobox"), width = 12)),
+      column(width = 3, valueBoxOutput(ns("base_infobox"), width = 12)),
+      column(width = 3, valueBoxOutput(ns("npp_infobox"), width = 12)),
+      column(width = 3, valueBoxOutput(ns("atr_infobox"), width = 12))
+    ),
+    
+    br(),
+    
+    fluidRow(
+      echarts4rOutput(ns("summary_echart"))
+    )
+  )  
   
-  fluidRow(
-    column(width = 3, valueBoxOutput(ns("total_infobox"), width = 12)),
-    column(width = 3, valueBoxOutput(ns("base_infobox"), width = 12)),
-    column(width = 3, valueBoxOutput(ns("npp_infobox"), width = 12)),
-    column(width = 3, valueBoxOutput(ns("atr_infobox"), width = 12))
-  )
-  
-  br()
-  
-  fluidRow(
-    echarts4rOutput(ns("summary_echart"))
-  )
 
 }
 
