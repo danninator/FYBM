@@ -16,7 +16,7 @@ ui <- dashboardPage(
   ),
   
   dashboardSidebar(
-    # collapsed = TRUE
+    collapsed = TRUE,
     width = 0
     # disable = TRUE
   ),
@@ -26,12 +26,11 @@ ui <- dashboardPage(
       tags$link(
         rel = "stylesheet",
         type = "text/css",
-        # href = "css/style.css"
+        href = "style.css"
       )
     ),
     
     # --??-- WHY IS IT THAT I NEED TO ADD br() IN TO MAKE THE BOX START IN THE DASH BODY? 
-    # Shouldn't it already be within the body? By that logic, BELOW the header?
     
     br(), br(), br(),
     
